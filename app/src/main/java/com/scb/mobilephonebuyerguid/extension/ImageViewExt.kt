@@ -1,10 +1,10 @@
 package scb.academy.jinglebell.extension
 
 import android.widget.ImageView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 
 fun ImageView.setImageUrl(url: String) {
-    Picasso.get()
+    Glide.with(context)
         .load(url)
         .into(this)
 }

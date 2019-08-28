@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.scb.mobilephonebuyerguid.R
+import com.scb.mobilephonebuyerguid.activity.DetailsActivity
 import com.scb.mobilephonebuyerguid.adapter.MobileAdapter
 import com.scb.mobilephonebuyerguid.adapter.OnMobileClickListener
 import com.scb.mobilephonebuyerguid.model.Mobile
@@ -53,7 +54,6 @@ class MoblieListFragment : Fragment(), OnMobileClickListener {
         rvMobiles.adapter = mobileAdapter
         rvMobiles.layoutManager = LinearLayoutManager(context)
         rvMobiles.itemAnimator = DefaultItemAnimator()
-        rvMobiles.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         loadMobiles()
     }
 
@@ -107,9 +107,12 @@ class MoblieListFragment : Fragment(), OnMobileClickListener {
 //        val rate: TextView = view.phoneRating
 //    }
 
-    override fun onMobileClick(song: Mobile) {
-
+    override fun onMobileClick(mobile: Mobile) {
+        var intent = Intent(context, DetailsActivity::class.java)
+        intent.putExtra("Mobile",mobile)
+        context!!.startActivity(intent)
     }
 
 }
+
 

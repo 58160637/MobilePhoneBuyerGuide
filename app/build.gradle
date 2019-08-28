@@ -43,5 +43,6 @@ dependencies {
     // Image loading framework
     implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"
 
-    implementation("com.squareup.picasso:picasso:2.71828")
+    // Sliding layout viewpager
+    implementation 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
 }
