@@ -12,7 +12,7 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_gravity="center"
-            android:layout_weight="0.35"
+            android:layout_weight="35"
             android:layout_width="match_parent"
             android:layout_height="0dp">
 
@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_weight="0.65">
+            android:layout_weight="65">
 
         <LinearLayout
                 android:layout_marginTop="10dp"

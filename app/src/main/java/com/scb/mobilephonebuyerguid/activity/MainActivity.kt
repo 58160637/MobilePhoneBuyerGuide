@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.scb.mobilephonebuyerguid.adapter.SectionsPagerAdapter
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
-import android.widget.Toast
 import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -23,8 +22,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.scb.mobilephonebuyerguid.R.layout.activity_main)
-        val sectionsPagerAdapter =
-            SectionsPagerAdapter(this, supportFragmentManager,listFragment)
+
+        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager,listFragment)
         val viewPager: ViewPager = findViewById(com.scb.mobilephonebuyerguid.R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(com.scb.mobilephonebuyerguid.R.id.tabs)
@@ -53,6 +52,5 @@ class MainActivity : AppCompatActivity() {
         })
         alertDialog1 = builder.create()
         alertDialog1.show()
-
     }
 }

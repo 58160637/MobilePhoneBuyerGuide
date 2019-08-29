@@ -3,11 +3,14 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context=".fragment.FavoriteListFragment">
+             android:background="#E6E6E6"
+             tools:context=".fragment.MoblieListFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerMobileFavView"
+            tools:listitem="@layout/custom_fav_list"
+            tools:itemCount="4"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="FavoriteListFragment"/>
+            android:layout_height="match_parent"/>
 
 </FrameLayout>

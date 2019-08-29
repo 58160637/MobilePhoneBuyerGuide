@@ -3,11 +3,13 @@ package com.scb.mobilephonebuyerguid.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import com.ouattararomuald.slider.ImageSlider
 import com.ouattararomuald.slider.SliderAdapter
 import com.ouattararomuald.slider.loaders.picasso.PicassoImageLoaderFactory
+import com.scb.mobilephonebuyerguid.MOBILE
 import com.scb.mobilephonebuyerguid.R
 import com.scb.mobilephonebuyerguid.model.Mobile
 import com.scb.mobilephonebuyerguid.model.MobilePicture
@@ -38,8 +40,17 @@ class DetailsActivity : AppCompatActivity() {
         tvDetailsPhoneRate = findViewById(R.id.detailsPhoneRate)
         tvDetailsPhonePrice = findViewById(R.id.detailsPhonePrice)
 
-        val mobiles = intent.getParcelableExtra<Mobile>("Mobile") ?: return
+        val mobiles = intent.getParcelableExtra<Mobile>(MOBILE) ?: return
         showMobileInformation(mobiles)
+
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private val mobilePictureCallback = object : Callback<List<MobilePicture>> {
@@ -48,7 +59,6 @@ class DetailsActivity : AppCompatActivity() {
         }
         override fun onResponse(call: Call<List<MobilePicture>>, response: Response<List<MobilePicture>>) {
             if (response.isSuccessful){
-                Log.d("SCB_NETWORK",response.body().toString())
                 imagesBean.clear()
                 imagesBean.addAll(response.body()!!)
                 showPicturesSlide()
@@ -84,4 +94,6 @@ class DetailsActivity : AppCompatActivity() {
 
         loadMobilePictures(mobiles.id)
     }
+
+
 }

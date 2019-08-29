@@ -9,19 +9,15 @@ import com.scb.mobilephonebuyerguid.R
 import com.scb.mobilephonebuyerguid.model.Mobile
 import scb.academy.jinglebell.extension.setImageUrl
 
-class MobileAdapter(private val listener: OnMobileClickListener)
-    : RecyclerView.Adapter<MobileItemViewHolder>() {
+class MobileFavAdapter(private val listener: OnMobileFavClickListener)
+    : RecyclerView.Adapter<MobileFavViewHolder>() {
 
     val mobile: List<Mobile>
         get() = _mobile
 
     private var _mobile: List<Mobile> = listOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MobileItemViewHolder(parent)
-
-    override fun onBindViewHolder(holder: MobileItemViewHolder, position: Int) {
-        holder.bind(_mobile[position], listener)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)= MobileFavViewHolder (parent)
 
     override fun getItemCount(): Int {
         return if (mobile.count() == 0) {
@@ -30,49 +26,35 @@ class MobileAdapter(private val listener: OnMobileClickListener)
             mobile.count()
         }
     }
+    override fun onBindViewHolder(holder: MobileFavViewHolder, position: Int) {
+        holder.bind(_mobile[position], listener)
+    }
 
     fun submitList(list: List<Mobile>) {
         _mobile = list
         notifyDataSetChanged()
     }
-
 }
-
-class MobileItemViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.custom_list, parent, false)
+class MobileFavViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+    LayoutInflater.from(parent.context).inflate(R.layout.custom_fav_list, parent, false)
 ) {
 
     private val name: TextView = itemView.findViewById(R.id.phoneName)
-    private val description: TextView = itemView.findViewById(R.id.phoneDescription)
     private val pic: ImageView = itemView.findViewById(R.id.phonePic)
     private val price: TextView = itemView.findViewById(R.id.phonePrice)
     private val rate: TextView = itemView.findViewById(R.id.phoneRating)
-    private val fav: ImageView = itemView.findViewById(R.id.favButton)
 
-    fun bind(mobile: Mobile, listener: OnMobileClickListener) {
+    fun bind(mobile: Mobile, listener: OnMobileFavClickListener) {
         name.text = mobile.name
-        description.text = mobile.description
         price.text = mobile.price.toString()
         rate.text = mobile.rating.toString()
         pic.setImageUrl(mobile.thumbImageURL)
-
-        if (mobile.isFav)
-            fav.setImageResource(R.drawable.ic_heart_bold)
-        else
-            fav.setImageResource(R.drawable.ic_heart)
-
-
-        fav.setOnClickListener {
-            listener.onFavClick(mobile,fav)
-        }
         itemView.setOnClickListener {
-            listener.onMobileClick(mobile)
+            listener.onMobileFavClick(mobile)
         }
     }
-
 }
 
-interface OnMobileClickListener {
-    fun onMobileClick(mobile: Mobile)
-    fun onFavClick(mobile: Mobile,favImageView: ImageView)
+interface OnMobileFavClickListener {
+    fun onMobileFavClick(mobile: Mobile)
 }
