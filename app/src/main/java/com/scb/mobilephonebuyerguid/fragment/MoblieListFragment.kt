@@ -10,47 +10,40 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.scb.mobilephonebuyerguid.R
 import com.scb.mobilephonebuyerguid.activity.DetailsActivity
 import com.scb.mobilephonebuyerguid.adapter.MobileAdapter
+import com.scb.mobilephonebuyerguid.adapter.OnFavClickListener
 import com.scb.mobilephonebuyerguid.adapter.OnMobileClickListener
 import com.scb.mobilephonebuyerguid.model.Mobile
-import kotlinx.android.synthetic.main.custom_list.view.*
-import kotlinx.android.synthetic.main.fragment_moblie_list.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.widget.Toast
+import androidx.core.widget.ImageViewCompat
+import com.scb.mobilephonebuyerguid.R
 
 
-class MoblieListFragment : Fragment(), OnMobileClickListener {
+class MoblieListFragment : Fragment(), OnMobileClickListener, OnFavClickListener {
     private lateinit var rvMobiles: RecyclerView
     private lateinit var mobileAdapter: MobileAdapter
-    //private var mDataArray: ArrayList<Mobile> = ArrayList<Mobile>()
-    //private lateinit var mAdapter: CustomAdapter
+    private lateinit var mobiles: List<Mobile>
+    private var sortOption:Int = 0;
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        val _view = inflater.inflate(R.layout.fragment_moblie_list, container, false)
-//        mAdapter = CustomAdapter(context!!)
-//        _view.recyclerView.let {
-//            it.adapter = mAdapter
-//            it.layoutManager = LinearLayoutManager(activity)
-//        }
-//        return _view
-        return inflater.inflate(R.layout.fragment_moblie_list, container, false)
+        return inflater.inflate(com.scb.mobilephonebuyerguid.R.layout.fragment_moblie_list, container, false)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rvMobiles = view.findViewById(R.id.recyclerMobileView)
-        mobileAdapter = MobileAdapter(this)
+        rvMobiles = view.findViewById(com.scb.mobilephonebuyerguid.R.id.recyclerMobileView)
+        mobileAdapter = MobileAdapter(this,this)
         rvMobiles.adapter = mobileAdapter
         rvMobiles.layoutManager = LinearLayoutManager(context)
         rvMobiles.itemAnimator = DefaultItemAnimator()
@@ -67,50 +60,44 @@ class MoblieListFragment : Fragment(), OnMobileClickListener {
         }
         override fun onResponse(call: Call<List<Mobile>>, response: Response<List<Mobile>>) {
             if (response.isSuccessful){
-//                mDataArray.clear()
-//                mDataArray.addAll(response.body()!!)
-//                mAdapter.notifyDataSetChanged()
-                val mobiles = response.body()!! ?: return
-                mobileAdapter.submitList(mobiles)
+                mobiles = response.body()!! ?: return
+                setSort(sortOption)
             }
         }
     }
-
-//    inner class CustomAdapter(val context: Context) :
-//        RecyclerView.Adapter<CustomHolder>() {
-//        override fun onBindViewHolder(holder: CustomHolder, position: Int) {
-//            val item = mDataArray[position]
-//            holder.name.text = item.name
-//            holder.description.text = item.description
-//            holder.price.text = item.price.toString()
-//            holder.rate.text = item.rating.toString()
-//            Glide.with(context).load(item.thumbImageURL).into(holder.pic)
-//            holder.pic.setTag(R.id.phonePic,item.name)
-//        }
-//        override fun getItemCount(): Int = mDataArray.size
-//        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomHolder {
-//            return CustomHolder(
-//                LayoutInflater.from(parent.context).inflate(
-//                    R.layout.custom_list,
-//                    parent,
-//                    false
-//                )
-//            )
-//        }
-//    }
-//
-//    inner class CustomHolder(view: View) : RecyclerView.ViewHolder(view) {
-//        val name: TextView = view.phoneName
-//        val description: TextView = view.phoneDescription
-//        val pic: ImageView = view.phonePic
-//        val price: TextView = view.phonePrice
-//        val rate: TextView = view.phoneRating
-//    }
-
+    fun setSort(option:Int) {
+        when (option){
+            0 -> {
+                sortOption = 0
+                val newArray = mobiles.sortedBy { it.price }
+                mobileAdapter.submitList(newArray)
+            }
+            1 -> {
+                sortOption = 1
+                val newArray = mobiles.sortedByDescending { it.price }
+                mobileAdapter.submitList(newArray)
+            }
+            else -> {
+                sortOption = 2
+                val newArray = mobiles.sortedByDescending { it.rating }
+                mobileAdapter.submitList(newArray)
+            }
+        }
+    }
     override fun onMobileClick(mobile: Mobile) {
         var intent = Intent(context, DetailsActivity::class.java)
         intent.putExtra("Mobile",mobile)
         context!!.startActivity(intent)
+    }
+    override fun onFavClick(mobile: Mobile,favImageView: ImageView) {
+        if (mobile.isFav) {
+            mobile.isFav = false
+            favImageView.setImageResource(R.drawable.ic_heart)
+        }
+        else {
+            mobile.isFav = true
+            favImageView.setImageResource(R.drawable.ic_heart_bold)
+        }
     }
 
 }

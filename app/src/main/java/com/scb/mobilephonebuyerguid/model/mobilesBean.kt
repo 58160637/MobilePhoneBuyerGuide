@@ -12,7 +12,8 @@ data class Mobile(
     val name: String,
     val price: Double,
     val rating: Double,
-    val thumbImageURL: String
+    val thumbImageURL: String,
+    var isFav: Boolean = false
 ) : Parcelable
 
 

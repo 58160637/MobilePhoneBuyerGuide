@@ -10,7 +10,7 @@ import com.scb.mobilephonebuyerguid.model.Mobile
 import kotlinx.android.synthetic.main.custom_list.view.*
 import scb.academy.jinglebell.extension.setImageUrl
 
-class MobileAdapter(private val listener: OnMobileClickListener)
+class MobileAdapter(private val listener: OnMobileClickListener,private val favListener: OnFavClickListener)
     : RecyclerView.Adapter<MobileItemViewHolder>() {
 
     val mobile: List<Mobile>
@@ -21,7 +21,7 @@ class MobileAdapter(private val listener: OnMobileClickListener)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MobileItemViewHolder(parent)
 
     override fun onBindViewHolder(holder: MobileItemViewHolder, position: Int) {
-        holder.bind(_mobile[position], listener)
+        holder.bind(_mobile[position], listener, favListener)
     }
 
     override fun getItemCount(): Int {
@@ -48,19 +48,27 @@ class MobileItemViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val pic: ImageView = itemView.findViewById(R.id.phonePic)
     private val price: TextView = itemView.findViewById(R.id.phonePrice)
     private val rate: TextView = itemView.findViewById(R.id.phoneRating)
+    private val fav: ImageView = itemView.findViewById(R.id.favButton)
 
-    fun bind(mobile: Mobile, listener: OnMobileClickListener) {
+    fun bind(mobile: Mobile, listener: OnMobileClickListener, favListener: OnFavClickListener) {
         name.text = mobile.name
         description.text = mobile.description
         price.text = mobile.price.toString()
         rate.text = mobile.rating.toString()
         pic.setImageUrl(mobile.thumbImageURL)
 
+        fav.setOnClickListener {
+            favListener.onFavClick(mobile,fav)
+        }
         itemView.setOnClickListener {
             listener.onMobileClick(mobile)
         }
     }
 
+}
+
+interface OnFavClickListener {
+    fun onFavClick(mobile: Mobile,favImageView: ImageView)
 }
 
 interface OnMobileClickListener {

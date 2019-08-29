@@ -49,6 +49,7 @@
                             android:layout_weight="1"/>
 
                     <ImageView
+                            android:id="@+id/favButton"
                             android:layout_width="20sp"
                             android:layout_height="20sp"
                             android:src="@drawable/ic_heart"/>
