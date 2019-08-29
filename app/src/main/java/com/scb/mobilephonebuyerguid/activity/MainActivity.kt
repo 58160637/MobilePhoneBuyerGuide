@@ -8,6 +8,7 @@ import com.scb.mobilephonebuyerguid.adapter.SectionsPagerAdapter
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.DialogInterface
+import android.view.MotionEvent
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.scb.mobilephonebuyerguid.fragment.FavoriteListFragment
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager,listFragment)
         val viewPager: ViewPager = findViewById(com.scb.mobilephonebuyerguid.R.id.view_pager)
+
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(com.scb.mobilephonebuyerguid.R.id.tabs)
         tabs.setupWithViewPager(viewPager)

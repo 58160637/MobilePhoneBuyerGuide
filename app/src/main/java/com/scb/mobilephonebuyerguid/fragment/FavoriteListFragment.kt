@@ -9,10 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.scb.mobilephonebuyerguid.MOBILE
 import com.scb.mobilephonebuyerguid.R
+import com.scb.mobilephonebuyerguid.adapter.CustomItemTouchHelperCallback
 import com.scb.mobilephonebuyerguid.adapter.MobileFavAdapter
 import com.scb.mobilephonebuyerguid.adapter.OnMobileFavClickListener
 import com.scb.mobilephonebuyerguid.model.Mobile
@@ -21,6 +23,8 @@ class FavoriteListFragment : Fragment(), OnMobileFavClickListener {
     private lateinit var rvMobiles: RecyclerView
     private lateinit var favMobiles: ArrayList<Mobile>
     private lateinit var mobileAdapter: MobileFavAdapter
+    private lateinit var touchHelperCallback : CustomItemTouchHelperCallback
+    private lateinit var itemTouchHelper : ItemTouchHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +42,11 @@ class FavoriteListFragment : Fragment(), OnMobileFavClickListener {
         rvMobiles.adapter = mobileAdapter
         rvMobiles.layoutManager = LinearLayoutManager(context)
         rvMobiles.itemAnimator = DefaultItemAnimator()
+
+        touchHelperCallback = CustomItemTouchHelperCallback(mobileAdapter)
+        itemTouchHelper = ItemTouchHelper(touchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(rvMobiles)
+
         mobileAdapter.submitList(favMobiles)
     }
     fun updateListFav(list:ArrayList<Mobile>){
