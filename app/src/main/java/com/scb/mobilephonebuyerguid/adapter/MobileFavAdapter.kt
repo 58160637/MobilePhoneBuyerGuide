@@ -1,18 +1,17 @@
 package com.scb.mobilephonebuyerguid.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.scb.mobilephonebuyerguid.R
+import com.scb.mobilephonebuyerguid.callback.CustomItemTouchHelperListener
 import com.scb.mobilephonebuyerguid.model.Mobile
 import scb.academy.jinglebell.extension.setImageUrl
 
-class MobileFavAdapter(private val listener: OnMobileFavClickListener)
-    : RecyclerView.Adapter<MobileFavViewHolder>() , CustomItemTouchHelperListener{
+class MobileFavAdapter(private val listener: OnMobileFavListener)
+    : RecyclerView.Adapter<MobileFavViewHolder>() , CustomItemTouchHelperListener {
     val mobile: List<Mobile>
         get() = _mobile
 
@@ -35,7 +34,7 @@ class MobileFavAdapter(private val listener: OnMobileFavClickListener)
     }
 
     override fun onBindViewHolder(holder: MobileFavViewHolder, position: Int) {
-        holder.bind(_mobile[position], listener)
+        holder.bind(_mobile[position])
     }
 
     fun submitList(list: ArrayList<Mobile>) {
@@ -53,50 +52,14 @@ class MobileFavViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     private val price: TextView = itemView.findViewById(R.id.phonePrice)
     private val rate: TextView = itemView.findViewById(R.id.phoneRating)
 
-    fun bind(mobile: Mobile, listener: OnMobileFavClickListener) {
+    fun bind(mobile: Mobile) {
         name.text = mobile.name
         price.text = mobile.price.toString()
         rate.text = mobile.rating.toString()
         pic.setImageUrl(mobile.thumbImageURL)
-
-        itemView.setOnClickListener {
-            listener.onMobileFavClick(mobile)
-        }
     }
 }
 
-interface OnMobileFavClickListener {
-    fun onMobileFavClick(mobile: Mobile)
+interface OnMobileFavListener {
     fun onDissmissFav(mobile: Mobile)
 }
-
-class CustomItemTouchHelperCallback(private var listener: CustomItemTouchHelperListener) : ItemTouchHelper.Callback() {
-    override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-        val dragFlags = 0
-        val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
-        return ItemTouchHelper.Callback.makeMovementFlags(dragFlags, swipeFlags)
-    }
-    override fun isLongPressDragEnabled(): Boolean {
-        return false
-    }
-
-    override fun onMove(
-        recyclerView: RecyclerView,
-        viewHolder: RecyclerView.ViewHolder,
-        target: RecyclerView.ViewHolder
-    ): Boolean {
-        return false
-    }
-
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-        viewHolder?.let {
-            listener.onItemDismiss(viewHolder.adapterPosition)
-        }
-    }
-}
-
-interface CustomItemTouchHelperListener {
-    fun onItemDismiss(position: Int)
-}
-
-

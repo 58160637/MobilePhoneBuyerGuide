@@ -1,9 +1,7 @@
 package com.scb.mobilephonebuyerguid.fragment
 
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,12 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.scb.mobilephonebuyerguid.MOBILE
 import com.scb.mobilephonebuyerguid.R
 import com.scb.mobilephonebuyerguid.activity.MainActivity
-import com.scb.mobilephonebuyerguid.adapter.CustomItemTouchHelperCallback
 import com.scb.mobilephonebuyerguid.adapter.MobileFavAdapter
-import com.scb.mobilephonebuyerguid.adapter.OnMobileFavClickListener
+import com.scb.mobilephonebuyerguid.adapter.OnMobileFavListener
+import com.scb.mobilephonebuyerguid.callback.CustomItemTouchHelperCallback
 import com.scb.mobilephonebuyerguid.model.Mobile
 
-class FavoriteListFragment : Fragment(), OnMobileFavClickListener {
+class FavoriteListFragment : Fragment(), OnMobileFavListener {
     private lateinit var rvMobiles: RecyclerView
 
     private lateinit var favMobiles: ArrayList<Mobile>
@@ -54,9 +52,6 @@ class FavoriteListFragment : Fragment(), OnMobileFavClickListener {
     fun updateListFav(list:ArrayList<Mobile>){
         favMobiles = list
         mobileAdapter.submitList(favMobiles)
-    }
-    override fun onMobileFavClick(mobile: Mobile) {
-
     }
 
     override fun onDissmissFav(mobile: Mobile) {

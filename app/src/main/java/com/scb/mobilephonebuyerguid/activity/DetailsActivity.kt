@@ -69,7 +69,12 @@ class DetailsActivity : AppCompatActivity() {
     private fun showPicturesSlide() {
         val imageUrls: ArrayList<String> = ArrayList<String>()
         for (image in imagesBean){
-            imageUrls.add(image.url)
+            if(!(image.url).contains("http",ignoreCase = true)){
+                var url = "https://"+image.url
+                imageUrls.add(url)
+            }else{
+                imageUrls.add(image.url)
+            }
         }
         imageSlider = findViewById(R.id.image_slider)
         imageSlider.adapter = SliderAdapter(
