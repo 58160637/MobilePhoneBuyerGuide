@@ -48,13 +48,18 @@ class MoblieListFragment : Fragment(), OnMobileClickListener {
         loadMobiles()
     }
 
+    fun unFavMobilesList(mobile: Mobile){
+        mobiles[mobiles.indexOf(mobile)].isFav = false
+        mobileAdapter.submitList(mobiles)
+    }
+
     private fun loadMobiles() {
         val call = ApiManager.mobilesService.mobiles().enqueue(mobilesListCallback)
     }
 
     private val mobilesListCallback = object : Callback<List<Mobile>> {
         override fun onFailure(call: Call<List<Mobile>>, t: Throwable) {
-            Log.d("SCB_NETWORK",t.message.toString())
+            Log.d("SCB_NETWORK","error :"+ t.message.toString())
         }
         override fun onResponse(call: Call<List<Mobile>>, response: Response<List<Mobile>>) {
             if (response.isSuccessful){

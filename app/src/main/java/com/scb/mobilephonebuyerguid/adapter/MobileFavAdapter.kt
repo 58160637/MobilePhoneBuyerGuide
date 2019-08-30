@@ -29,10 +29,11 @@ class MobileFavAdapter(private val listener: OnMobileFavClickListener)
     }
 
     override fun onItemDismiss(position: Int) {
+        listener.onDissmissFav(_mobile[position])
         _mobile.removeAt(position)
-        notifyItemRemoved(position)
+        notifyDataSetChanged()
     }
-    
+
     override fun onBindViewHolder(holder: MobileFavViewHolder, position: Int) {
         holder.bind(_mobile[position], listener)
     }
@@ -41,6 +42,7 @@ class MobileFavAdapter(private val listener: OnMobileFavClickListener)
         _mobile = list
         notifyDataSetChanged()
     }
+
 }
 class MobileFavViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.custom_fav_list, parent, false)
@@ -65,6 +67,7 @@ class MobileFavViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 
 interface OnMobileFavClickListener {
     fun onMobileFavClick(mobile: Mobile)
+    fun onDissmissFav(mobile: Mobile)
 }
 
 class CustomItemTouchHelperCallback(private var listener: CustomItemTouchHelperListener) : ItemTouchHelper.Callback() {

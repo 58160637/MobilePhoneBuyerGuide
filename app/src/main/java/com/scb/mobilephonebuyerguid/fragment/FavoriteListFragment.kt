@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.scb.mobilephonebuyerguid.MOBILE
 import com.scb.mobilephonebuyerguid.R
+import com.scb.mobilephonebuyerguid.activity.MainActivity
 import com.scb.mobilephonebuyerguid.adapter.CustomItemTouchHelperCallback
 import com.scb.mobilephonebuyerguid.adapter.MobileFavAdapter
 import com.scb.mobilephonebuyerguid.adapter.OnMobileFavClickListener
@@ -21,11 +22,11 @@ import com.scb.mobilephonebuyerguid.model.Mobile
 
 class FavoriteListFragment : Fragment(), OnMobileFavClickListener {
     private lateinit var rvMobiles: RecyclerView
+
     private lateinit var favMobiles: ArrayList<Mobile>
     private lateinit var mobileAdapter: MobileFavAdapter
     private lateinit var touchHelperCallback : CustomItemTouchHelperCallback
     private lateinit var itemTouchHelper : ItemTouchHelper
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,13 +50,17 @@ class FavoriteListFragment : Fragment(), OnMobileFavClickListener {
 
         mobileAdapter.submitList(favMobiles)
     }
+
     fun updateListFav(list:ArrayList<Mobile>){
         favMobiles = list
         mobileAdapter.submitList(favMobiles)
     }
-
     override fun onMobileFavClick(mobile: Mobile) {
 
+    }
+
+    override fun onDissmissFav(mobile: Mobile) {
+        (activity as MainActivity).mMobileFragment.unFavMobilesList(mobile)
     }
 
 }
