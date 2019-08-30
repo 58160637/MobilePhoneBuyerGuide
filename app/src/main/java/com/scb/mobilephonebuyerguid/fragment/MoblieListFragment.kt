@@ -73,23 +73,23 @@ class MoblieListFragment : Fragment(), OnMobileClickListener {
             0 -> {
                 sortOption = 0
                 mobiles = mobiles.sortedBy { it.price }
-                mobileAdapter.submitList(mobiles)
-                favMobiles.sortedBy { it.price }
+                favMobiles.sortBy { it.price }
                 (activity as MainActivity).mFavFragment.updateListFav(favMobiles)
+                mobileAdapter.submitList(mobiles)
             }
             1 -> {
                 sortOption = 1
                 mobiles = mobiles.sortedByDescending { it.price }
-                mobileAdapter.submitList(mobiles)
-                favMobiles.sortedBy { it.price }
+                favMobiles.sortByDescending { it.price }
                 (activity as MainActivity).mFavFragment.updateListFav(favMobiles)
+                mobileAdapter.submitList(mobiles)
             }
             else -> {
                 sortOption = 2
                 mobiles = mobiles.sortedByDescending { it.rating }
-                mobileAdapter.submitList(mobiles)
-                favMobiles.sortedBy { it.price }
+                favMobiles.sortByDescending { it.rating }
                 (activity as MainActivity).mFavFragment.updateListFav(favMobiles)
+                mobileAdapter.submitList(mobiles)
             }
         }
     }
