@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt' // add kotlin compiler
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.1"
@@ -14,6 +16,14 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // Room exports your database's schema information into a JSON file
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+
     }
     buildTypes {
         release {
@@ -46,4 +56,8 @@ dependencies {
     // Glide Image Slider
     implementation 'com.ouattararomuald:slider-glide:2.0.0'
     implementation 'com.ouattararomuald:slider-picasso:2.0.0' // If you use Picasso
+
+    // Room components
+    implementation "androidx.room:room-runtime:$rootProject.roomVersion"
+    kapt "androidx.room:room-compiler:$rootProject.roomVersion"
 }

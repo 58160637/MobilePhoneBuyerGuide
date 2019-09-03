@@ -8,27 +8,56 @@ import com.scb.mobilephonebuyerguid.adapter.SectionsPagerAdapter
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.DialogInterface
-import android.view.MotionEvent
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.scb.mobilephonebuyerguid.fragment.FavoriteListFragment
 import com.scb.mobilephonebuyerguid.fragment.MoblieListFragment
+import com.scb.mobilephonebuyerguid.interfaces.MainActivityInterface
+import com.scb.mobilephonebuyerguid.model.Mobile
+import com.scb.mobilephonebuyerguid.presenter.MainActivityPresenter
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainActivityInterface {
 
-    val mMobileFragment:MoblieListFragment = MoblieListFragment()
-    val mFavFragment:FavoriteListFragment = FavoriteListFragment()
-    val listFragment = arrayListOf<Fragment>(mMobileFragment,mFavFragment)
+    companion object {
+        const val PRICE_LOW_TO_HIGH = "Price low to high"
+        const val PRICE_HIGH_TO_LOW = "Price high to low"
+        const val RATING_5_1 = "Rating 5-1"
+    }
+
+    private val presenter: MainActivityPresenter = MainActivityPresenter(this)
+
+    lateinit var mMobileFragment: MoblieListFragment
+    lateinit var mFavFragment: FavoriteListFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.scb.mobilephonebuyerguid.R.layout.activity_main)
+        setPager()
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager,listFragment)
+    }
+
+    fun showDialogBox() {
+        var sortDialog: AlertDialog? = null
+        val values = arrayOf<CharSequence>(PRICE_LOW_TO_HIGH, PRICE_HIGH_TO_LOW, RATING_5_1)
+        val builder = AlertDialog.Builder(this@MainActivity)
+        builder.setSingleChoiceItems(values, -1, DialogInterface.OnClickListener { _, item ->
+            presenter.sortItem(item)
+            sortDialog?.dismiss()
+        })
+        sortDialog = builder.create()
+        sortDialog.show()
+    }
+
+    fun setPager() {
+        mMobileFragment = MoblieListFragment.newInsurance()
+        mFavFragment = FavoriteListFragment.newInsurance()
+        val listFragment = arrayListOf<Fragment>(mMobileFragment,mFavFragment)
+
+        val tabs: TabLayout = findViewById(com.scb.mobilephonebuyerguid.R.id.tabs)
         val viewPager: ViewPager = findViewById(com.scb.mobilephonebuyerguid.R.id.view_pager)
 
+        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager, listFragment)
         viewPager.adapter = sectionsPagerAdapter
-        val tabs: TabLayout = findViewById(com.scb.mobilephonebuyerguid.R.id.tabs)
         tabs.setupWithViewPager(viewPager)
 
         sort.setOnClickListener(object : View.OnClickListener {
@@ -37,22 +66,26 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
-    fun showDialogBox() {
-        var alertDialog1: AlertDialog? = null
-        val values = arrayOf<CharSequence>("Price low to high", "Price high to low", "Rating 5-1")
-        val builder = AlertDialog.Builder(this@MainActivity)
-        builder.setSingleChoiceItems(values, -1, DialogInterface.OnClickListener { dialog, item ->
-            when (item) {
-                0 ->
-                    mMobileFragment.setSort(0)
-                1 ->
-                    mMobileFragment.setSort(1)
-                2 ->
-                    mMobileFragment.setSort(2)
-            }
-            alertDialog1?.dismiss()
-        })
-        alertDialog1 = builder.create()
-        alertDialog1.show()
+
+    override fun sortRating() {
+        mMobileFragment.sortRating()
+        mFavFragment.sortRating()
+    }
+
+    override fun sortPricingHighToLow() {
+        mMobileFragment.sortPricingHighToLow()
+        mFavFragment.sortPricingHighToLow()
+    }
+
+    override fun sortPricingLowToHigh() {
+        mMobileFragment.sortPricingLowToHigh()
+        mFavFragment.sortPricingLowToHigh()
+    }
+    fun unFavMobile(mobile: Mobile){
+        mMobileFragment.unFavMobile(mobile)
+    }
+
+    fun updateFavList(favList: ArrayList<Mobile>) {
+        mFavFragment.updateFavList(favList)
     }
 }

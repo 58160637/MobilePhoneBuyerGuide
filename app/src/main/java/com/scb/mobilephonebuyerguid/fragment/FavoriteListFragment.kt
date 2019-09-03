@@ -10,21 +10,29 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.scb.mobilephonebuyerguid.MOBILE
 import com.scb.mobilephonebuyerguid.R
 import com.scb.mobilephonebuyerguid.activity.MainActivity
 import com.scb.mobilephonebuyerguid.adapter.MobileFavAdapter
 import com.scb.mobilephonebuyerguid.adapter.OnMobileFavListener
 import com.scb.mobilephonebuyerguid.callback.CustomItemTouchHelperCallback
+import com.scb.mobilephonebuyerguid.interfaces.FavoriteListFragmentInterface
 import com.scb.mobilephonebuyerguid.model.Mobile
+import com.scb.mobilephonebuyerguid.presenter.FavoriteListFragmentPresenter
 
-class FavoriteListFragment : Fragment(), OnMobileFavListener {
+class FavoriteListFragment : Fragment(), OnMobileFavListener, FavoriteListFragmentInterface {
     private lateinit var rvMobiles: RecyclerView
-
-    private lateinit var favMobiles: ArrayList<Mobile>
     private lateinit var mobileAdapter: MobileFavAdapter
-    private lateinit var touchHelperCallback : CustomItemTouchHelperCallback
-    private lateinit var itemTouchHelper : ItemTouchHelper
+    private lateinit var touchHelperCallback: CustomItemTouchHelperCallback
+    private lateinit var itemTouchHelper: ItemTouchHelper
+    private val presenter: FavoriteListFragmentPresenter = FavoriteListFragmentPresenter(this)
+
+    companion object {
+        fun newInsurance():FavoriteListFragment {
+            val favoriteListFragment = FavoriteListFragment()
+            return favoriteListFragment
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,28 +42,46 @@ class FavoriteListFragment : Fragment(), OnMobileFavListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        favMobiles = arguments!!.getParcelableArrayList<Mobile>(MOBILE) as ArrayList<Mobile>
+        init(view)
+        presenter.init()
+    }
 
+    private fun init(view: View) {
         rvMobiles = view.findViewById(R.id.recyclerMobileFavView)
         mobileAdapter = MobileFavAdapter(this)
         rvMobiles.adapter = mobileAdapter
         rvMobiles.layoutManager = LinearLayoutManager(context)
         rvMobiles.itemAnimator = DefaultItemAnimator()
-
         touchHelperCallback = CustomItemTouchHelperCallback(mobileAdapter)
         itemTouchHelper = ItemTouchHelper(touchHelperCallback)
         itemTouchHelper.attachToRecyclerView(rvMobiles)
-
-        mobileAdapter.submitList(favMobiles)
     }
 
-    fun updateListFav(list:ArrayList<Mobile>){
-        favMobiles = list
-        mobileAdapter.submitList(favMobiles)
+    override fun submitList(list: ArrayList<Mobile>) {
+        mobileAdapter.submitList(list)
+    }
+
+    override fun updateFavList(list: ArrayList<Mobile>) {
+        presenter.updateFavList(list)
+        submitList(list)
+    }
+
+    override fun sortRating() {
+        presenter.sortRating()
+    }
+
+    override fun sortPricingHighToLow() {
+        presenter.sortPricingHighToLow()
+    }
+
+    override fun sortPricingLowToHigh() {
+        presenter.sortPricingLowToHigh()
     }
 
     override fun onDissmissFav(mobile: Mobile) {
-        (activity as MainActivity).mMobileFragment.unFavMobilesList(mobile)
+        getParent()?.unFavMobile(mobile)
     }
+
+    fun getParent() = (activity as? MainActivity)
 
 }
