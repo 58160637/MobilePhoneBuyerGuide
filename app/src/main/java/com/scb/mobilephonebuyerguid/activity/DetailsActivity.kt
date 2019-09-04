@@ -2,9 +2,7 @@ package com.scb.mobilephonebuyerguid.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
-import android.widget.ImageView
 import android.widget.TextView
 import com.ouattararomuald.slider.ImageSlider
 import com.ouattararomuald.slider.SliderAdapter

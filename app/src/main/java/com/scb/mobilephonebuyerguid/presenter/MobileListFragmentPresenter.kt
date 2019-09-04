@@ -1,17 +1,18 @@
 package com.scb.mobilephonebuyerguid.presenter
+
 import android.util.Log
 import android.widget.ImageView
-import com.scb.mobilephonebuyerguid.interfaces.MoblieListFragmentInterface
+import com.scb.mobilephonebuyerguid.interfaces.MobileListFragmentInterface
 import com.scb.mobilephonebuyerguid.model.Mobile
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MobileListFragmentPresenter(private val fragment: MoblieListFragmentInterface) {
+class MobileListFragmentPresenter(private val fragment: MobileListFragmentInterface) {
     private lateinit var mobiles: List<Mobile>
     var favMobiles: ArrayList<Mobile> = ArrayList<Mobile>()
 
-    private val mobilesListCallback = object : Callback<List<Mobile>>{
+    private val mobilesListCallback = object : Callback<List<Mobile>> {
         override fun onFailure(call: Call<List<Mobile>>, t: Throwable) {
             Log.d("SCB_NETWORK", "error :" + t.message.toString())
         }
@@ -24,12 +25,12 @@ class MobileListFragmentPresenter(private val fragment: MoblieListFragmentInterf
         }
     }
 
-    fun unFavMobileClick(mobile: Mobile){
+    fun unFavMobileClick(mobile: Mobile) {
         mobiles[mobiles.indexOf(mobile)].isFav = false
         fragment.submitList(mobiles)
     }
 
-    fun favMobileClick(mobile: Mobile,favImageView: ImageView){
+    fun favMobileClick(mobile: Mobile, favImageView: ImageView) {
         if (mobile.isFav) {
             mobile.isFav = false
             favMobiles.remove(mobile)
@@ -63,7 +64,7 @@ class MobileListFragmentPresenter(private val fragment: MoblieListFragmentInterf
         ApiManager.mobilesService.mobiles().enqueue(mobilesListCallback)
     }
 
-    fun init(){
+    fun init() {
         loadMobiles(mobilesListCallback)
     }
 

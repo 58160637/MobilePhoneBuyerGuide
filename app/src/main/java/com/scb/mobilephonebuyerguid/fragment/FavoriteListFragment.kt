@@ -27,10 +27,7 @@ class FavoriteListFragment : Fragment(), OnMobileFavListener, FavoriteListFragme
     private val presenter: FavoriteListFragmentPresenter = FavoriteListFragmentPresenter(this)
 
     companion object {
-        fun newInsurance():FavoriteListFragment {
-            val favoriteListFragment = FavoriteListFragment()
-            return favoriteListFragment
-        }
+        fun newInsurance() = FavoriteListFragment()
     }
 
     override fun onCreateView(
@@ -82,6 +79,6 @@ class FavoriteListFragment : Fragment(), OnMobileFavListener, FavoriteListFragme
         getParent()?.unFavMobile(mobile)
     }
 
-    fun getParent() = (activity as? MainActivity)
+    private fun getParent() = (activity as? MainActivity)
 
 }

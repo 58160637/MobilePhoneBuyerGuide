@@ -9,6 +9,7 @@ class CustomItemTouchHelperCallback(private var listener: CustomItemTouchHelperL
         val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
         return ItemTouchHelper.Callback.makeMovementFlags(dragFlags, swipeFlags)
     }
+
     override fun isLongPressDragEnabled(): Boolean {
         return false
     }

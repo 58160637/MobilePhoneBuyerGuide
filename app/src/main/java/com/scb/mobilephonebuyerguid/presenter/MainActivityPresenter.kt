@@ -2,7 +2,7 @@ package com.scb.mobilephonebuyerguid.presenter
 
 import com.scb.mobilephonebuyerguid.interfaces.MainActivityInterface
 
-class MainActivityPresenter(private val view: MainActivityInterface){
+class MainActivityPresenter(private val view: MainActivityInterface) {
 
     companion object {
         const val PRICE_LOW_TO_HIGH = 0
@@ -10,24 +10,26 @@ class MainActivityPresenter(private val view: MainActivityInterface){
         const val RATING = 2
     }
 
-    var sortOption:Int = PRICE_LOW_TO_HIGH
+    var sortOption: Int = PRICE_LOW_TO_HIGH
+
     fun sortItem(item: Int) {
         when (item) {
-            RATING ->{
+            RATING -> {
                 sortOption = RATING
                 view.sortRating()
             }
-            PRICE_HIGH_TO_LOW ->{
+            PRICE_HIGH_TO_LOW -> {
                 sortOption = PRICE_HIGH_TO_LOW
                 view.sortPricingHighToLow()
             }
-            PRICE_LOW_TO_HIGH ->{
+            PRICE_LOW_TO_HIGH -> {
                 sortOption = PRICE_LOW_TO_HIGH
                 view.sortPricingLowToHigh()
             }
         }
     }
-    fun setSortOption(){
+
+    fun setSortOption() {
         view.setSelectSortOption(sortOption)
     }
 

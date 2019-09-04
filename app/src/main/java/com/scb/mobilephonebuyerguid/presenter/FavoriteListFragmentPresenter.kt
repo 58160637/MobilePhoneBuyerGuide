@@ -9,7 +9,6 @@ class FavoriteListFragmentPresenter(private val fragment: FavoriteListFragmentIn
 
     fun init() {
         favMobiles = ArrayList<Mobile>()
-        //mobileAdapter.submitList(favMobiles)
     }
 
     fun sortRating() {

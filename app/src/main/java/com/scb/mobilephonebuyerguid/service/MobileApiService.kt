@@ -15,5 +15,4 @@ interface MobileApiService {
     ): Call<List<MobilePicture>>
 
 
-
 }

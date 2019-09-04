@@ -17,18 +17,17 @@ import com.scb.mobilephonebuyerguid.adapter.OnMobileClickListener
 import com.scb.mobilephonebuyerguid.model.Mobile
 import com.scb.mobilephonebuyerguid.R
 import com.scb.mobilephonebuyerguid.activity.MainActivity
-import com.scb.mobilephonebuyerguid.interfaces.MoblieListFragmentInterface
+import com.scb.mobilephonebuyerguid.interfaces.MobileListFragmentInterface
 import com.scb.mobilephonebuyerguid.presenter.MobileListFragmentPresenter
 
-class MoblieListFragment : Fragment(), OnMobileClickListener, MoblieListFragmentInterface {
+class MobileListFragment : Fragment(), OnMobileClickListener, MobileListFragmentInterface {
 
     private lateinit var rvMobiles: RecyclerView
     private lateinit var mobileAdapter: MobileAdapter
     private val presenter: MobileListFragmentPresenter = MobileListFragmentPresenter(this)
 
     companion object {
-
-        fun newInsurance() = MoblieListFragment()
+        fun newInsurance() = MobileListFragment()
     }
 
     override fun onCreateView(
@@ -51,6 +50,7 @@ class MoblieListFragment : Fragment(), OnMobileClickListener, MoblieListFragment
         rvMobiles.itemAnimator = DefaultItemAnimator()
         presenter.init()
     }
+
     fun unFavMobile(mobile: Mobile) {
         presenter.unFavMobileClick(mobile)
     }

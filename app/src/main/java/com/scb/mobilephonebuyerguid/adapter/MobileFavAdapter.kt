@@ -10,14 +10,15 @@ import com.scb.mobilephonebuyerguid.callback.CustomItemTouchHelperListener
 import com.scb.mobilephonebuyerguid.model.Mobile
 import scb.academy.jinglebell.extension.setImageUrl
 
-class MobileFavAdapter(private val listener: OnMobileFavListener)
-    : RecyclerView.Adapter<MobileFavViewHolder>() , CustomItemTouchHelperListener {
+class MobileFavAdapter(private val listener: OnMobileFavListener) : RecyclerView.Adapter<MobileFavViewHolder>(),
+    CustomItemTouchHelperListener {
+
     val mobile: List<Mobile>
         get() = _mobile
 
     private var _mobile: ArrayList<Mobile> = ArrayList<Mobile>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)= MobileFavViewHolder (parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MobileFavViewHolder(parent)
 
     override fun getItemCount(): Int {
         return if (mobile.size == 0) {
@@ -43,6 +44,7 @@ class MobileFavAdapter(private val listener: OnMobileFavListener)
     }
 
 }
+
 class MobileFavViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.custom_fav_list, parent, false)
 ) {
@@ -58,6 +60,7 @@ class MobileFavViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         rate.text = mobile.rating.toString()
         pic.setImageUrl(mobile.thumbImageURL)
     }
+
 }
 
 interface OnMobileFavListener {

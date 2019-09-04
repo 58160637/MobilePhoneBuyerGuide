@@ -11,7 +11,7 @@ import android.content.DialogInterface
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.scb.mobilephonebuyerguid.fragment.FavoriteListFragment
-import com.scb.mobilephonebuyerguid.fragment.MoblieListFragment
+import com.scb.mobilephonebuyerguid.fragment.MobileListFragment
 import com.scb.mobilephonebuyerguid.interfaces.MainActivityInterface
 import com.scb.mobilephonebuyerguid.model.Mobile
 import com.scb.mobilephonebuyerguid.presenter.MainActivityPresenter
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
     }
 
     private val presenter: MainActivityPresenter = MainActivityPresenter(this)
-    lateinit var mMobileFragment: MoblieListFragment
+    lateinit var mMobileFragment: MobileListFragment
     lateinit var mFavFragment: FavoriteListFragment
     private lateinit var sortDialog: AlertDialog
 
@@ -49,9 +49,9 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
     }
 
     private fun setPager() {
-        mMobileFragment = MoblieListFragment.newInsurance()
+        mMobileFragment = MobileListFragment.newInsurance()
         mFavFragment = FavoriteListFragment.newInsurance()
-        val listFragment = arrayListOf<Fragment>(mMobileFragment,mFavFragment)
+        val listFragment = arrayListOf<Fragment>(mMobileFragment, mFavFragment)
 
         val tabs: TabLayout = findViewById(com.scb.mobilephonebuyerguid.R.id.tabs)
         val viewPager: ViewPager = findViewById(com.scb.mobilephonebuyerguid.R.id.view_pager)
@@ -83,10 +83,10 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
     }
 
     override fun setSelectSortOption(sortOption: Int) {
-        sortDialog.listView.setItemChecked(sortOption,true)
+        sortDialog.listView.setItemChecked(sortOption, true)
     }
 
-    fun unFavMobile(mobile: Mobile){
+    fun unFavMobile(mobile: Mobile) {
         mMobileFragment.unFavMobile(mobile)
     }
 

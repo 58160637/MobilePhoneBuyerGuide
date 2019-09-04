@@ -9,8 +9,7 @@ import com.scb.mobilephonebuyerguid.R
 import com.scb.mobilephonebuyerguid.model.Mobile
 import scb.academy.jinglebell.extension.setImageUrl
 
-class MobileAdapter(private val listener: OnMobileClickListener)
-    : RecyclerView.Adapter<MobileItemViewHolder>() {
+class MobileAdapter(private val listener: OnMobileClickListener) : RecyclerView.Adapter<MobileItemViewHolder>() {
 
     val mobile: List<Mobile>
         get() = _mobile
@@ -39,7 +38,7 @@ class MobileAdapter(private val listener: OnMobileClickListener)
 }
 
 class MobileItemViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.custom_list, parent, false)
+    LayoutInflater.from(parent.context).inflate(R.layout.custom_list, parent, false)
 ) {
 
     private val name: TextView = itemView.findViewById(R.id.phoneName)
@@ -61,9 +60,8 @@ class MobileItemViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         else
             fav.setImageResource(R.drawable.ic_heart)
 
-
         fav.setOnClickListener {
-            listener.onFavClick(mobile,fav)
+            listener.onFavClick(mobile, fav)
         }
         itemView.setOnClickListener {
             listener.onMobileClick(mobile)
@@ -74,5 +72,5 @@ class MobileItemViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
 
 interface OnMobileClickListener {
     fun onMobileClick(mobile: Mobile)
-    fun onFavClick(mobile: Mobile,favImageView: ImageView)
+    fun onFavClick(mobile: Mobile, favImageView: ImageView)
 }
