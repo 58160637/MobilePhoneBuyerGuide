@@ -20,10 +20,10 @@ class MobileFavAdapter(private val listener: OnMobileFavListener)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)= MobileFavViewHolder (parent)
 
     override fun getItemCount(): Int {
-        return if (mobile.count() == 0) {
+        return if (mobile.size == 0) {
             0
         } else {
-            mobile.count()
+            mobile.size
         }
     }
 

@@ -26,6 +26,6 @@ class SectionsPagerAdapter(
     }
 
     override fun getCount(): Int {
-        return TAB_TITLES.size
+        return listFragment.size
     }
 }

@@ -24,10 +24,10 @@ class MobileAdapter(private val listener: OnMobileClickListener)
     }
 
     override fun getItemCount(): Int {
-        return if (mobile.count() == 0) {
+        return if (mobile.size == 0) {
             0
         } else {
-            mobile.count()
+            mobile.size
         }
     }
 
