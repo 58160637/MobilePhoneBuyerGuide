@@ -17,17 +17,17 @@ import com.scb.mobilephonebuyerguid.model.Mobile
 import com.scb.mobilephonebuyerguid.presenter.MainActivityPresenter
 
 class MainActivity : AppCompatActivity(), MainActivityInterface {
-
     companion object {
+
         const val PRICE_LOW_TO_HIGH = "Price low to high"
         const val PRICE_HIGH_TO_LOW = "Price high to low"
         const val RATING_5_1 = "Rating 5-1"
     }
 
     private val presenter: MainActivityPresenter = MainActivityPresenter(this)
-
     lateinit var mMobileFragment: MoblieListFragment
     lateinit var mFavFragment: FavoriteListFragment
+    private lateinit var sortDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
     }
 
     fun showDialogBox() {
-        var sortDialog: AlertDialog? = null
         val values = arrayOf<CharSequence>(PRICE_LOW_TO_HIGH, PRICE_HIGH_TO_LOW, RATING_5_1)
         val builder = AlertDialog.Builder(this@MainActivity)
         builder.setSingleChoiceItems(values, -1, DialogInterface.OnClickListener { _, item ->
@@ -46,9 +45,10 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
         })
         sortDialog = builder.create()
         sortDialog.show()
+        presenter.setSortOption()
     }
 
-    fun setPager() {
+    private fun setPager() {
         mMobileFragment = MoblieListFragment.newInsurance()
         mFavFragment = FavoriteListFragment.newInsurance()
         val listFragment = arrayListOf<Fragment>(mMobileFragment,mFavFragment)
@@ -81,6 +81,11 @@ class MainActivity : AppCompatActivity(), MainActivityInterface {
         mMobileFragment.sortPricingLowToHigh()
         mFavFragment.sortPricingLowToHigh()
     }
+
+    override fun setSelectSortOption(sortOption: Int) {
+        sortDialog.listView.setItemChecked(sortOption,true)
+    }
+
     fun unFavMobile(mobile: Mobile){
         mMobileFragment.unFavMobile(mobile)
     }

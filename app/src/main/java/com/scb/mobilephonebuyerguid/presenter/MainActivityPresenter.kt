@@ -10,7 +10,7 @@ class MainActivityPresenter(private val view: MainActivityInterface){
         const val RATING = 2
     }
 
-    var sortOption:Int = 0
+    var sortOption:Int = PRICE_LOW_TO_HIGH
     fun sortItem(item: Int) {
         when (item) {
             RATING ->{
@@ -26,6 +26,9 @@ class MainActivityPresenter(private val view: MainActivityInterface){
                 view.sortPricingLowToHigh()
             }
         }
+    }
+    fun setSortOption(){
+        view.setSelectSortOption(sortOption)
     }
 
 }
