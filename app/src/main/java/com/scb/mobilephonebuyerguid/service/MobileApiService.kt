@@ -1,3 +1,5 @@
+package com.scb.mobilephonebuyerguid.service
+
 import com.scb.mobilephonebuyerguid.model.Mobile
 import com.scb.mobilephonebuyerguid.model.MobilePicture
 import retrofit2.Call

@@ -12,10 +12,12 @@ import com.scb.mobilephonebuyerguid.R
 import com.scb.mobilephonebuyerguid.interfaces.DetailsActivityInterface
 import com.scb.mobilephonebuyerguid.model.Mobile
 import com.scb.mobilephonebuyerguid.presenter.DetailsActivityPresenter
+import com.scb.mobilephonebuyerguid.service.ApiManager
+import scb.academy.jinglebell.extension.showToast
 
 class DetailsActivity : AppCompatActivity(), DetailsActivityInterface {
 
-    private val presenter: DetailsActivityPresenter = DetailsActivityPresenter(this)
+    private val presenter: DetailsActivityPresenter = DetailsActivityPresenter(this, ApiManager.mobilesService)
     private lateinit var tvDetailsPhoneName: TextView
     private lateinit var tvDetailsPhoneBrand: TextView
     private lateinit var tvDetailsPhoneDescription: TextView
@@ -65,6 +67,10 @@ class DetailsActivity : AppCompatActivity(), DetailsActivityInterface {
         tvDetailsPhonePrice.text = mobiles.price.toString()
 
         presenter.loadMobilePictures(mobiles.id)
+    }
+
+    override fun showErrorMsg(errorManager: String) {
+        this.showToast(errorManager)
     }
 
 }

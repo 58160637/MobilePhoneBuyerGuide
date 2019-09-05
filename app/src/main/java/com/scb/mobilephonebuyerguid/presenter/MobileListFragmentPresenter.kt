@@ -1,20 +1,23 @@
 package com.scb.mobilephonebuyerguid.presenter
 
-import android.util.Log
 import android.widget.ImageView
 import com.scb.mobilephonebuyerguid.interfaces.MobileListFragmentInterface
 import com.scb.mobilephonebuyerguid.model.Mobile
+import com.scb.mobilephonebuyerguid.service.MobileApiService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MobileListFragmentPresenter(private val fragment: MobileListFragmentInterface) {
+class MobileListFragmentPresenter(
+    private val fragment: MobileListFragmentInterface,
+    private val service: MobileApiService
+) {
     private lateinit var mobiles: List<Mobile>
     var favMobiles: ArrayList<Mobile> = ArrayList<Mobile>()
 
     private val mobilesListCallback = object : Callback<List<Mobile>> {
         override fun onFailure(call: Call<List<Mobile>>, t: Throwable) {
-            Log.d("SCB_NETWORK", "error :" + t.message.toString())
+            fragment.showErrorMsg(t.message.toString())
         }
 
         override fun onResponse(call: Call<List<Mobile>>, response: Response<List<Mobile>>) {
@@ -61,7 +64,7 @@ class MobileListFragmentPresenter(private val fragment: MobileListFragmentInterf
     }
 
     private fun loadMobiles(mobilesListCallback: Callback<List<Mobile>>) {
-        ApiManager.mobilesService.mobiles().enqueue(mobilesListCallback)
+        service.mobiles().enqueue(mobilesListCallback)
     }
 
     fun init() {

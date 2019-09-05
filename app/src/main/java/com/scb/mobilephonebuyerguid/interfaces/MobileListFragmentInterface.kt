@@ -8,4 +8,5 @@ interface MobileListFragmentInterface {
     fun setImage(favImageView: ImageView)
     fun setImageBold(favImageView: ImageView)
     fun updateFavList(favList: ArrayList<Mobile>)
+    fun showErrorMsg(errorMessage: String)
 }

@@ -19,12 +19,15 @@ import com.scb.mobilephonebuyerguid.R
 import com.scb.mobilephonebuyerguid.activity.MainActivity
 import com.scb.mobilephonebuyerguid.interfaces.MobileListFragmentInterface
 import com.scb.mobilephonebuyerguid.presenter.MobileListFragmentPresenter
+import com.scb.mobilephonebuyerguid.service.ApiManager
+import scb.academy.jinglebell.extension.showToast
 
 class MobileListFragment : Fragment(), OnMobileClickListener, MobileListFragmentInterface {
 
+
     private lateinit var rvMobiles: RecyclerView
     private lateinit var mobileAdapter: MobileAdapter
-    private val presenter: MobileListFragmentPresenter = MobileListFragmentPresenter(this)
+    private val presenter: MobileListFragmentPresenter = MobileListFragmentPresenter(this, ApiManager.mobilesService)
 
     companion object {
         fun newInsurance() = MobileListFragment()
@@ -91,6 +94,10 @@ class MobileListFragment : Fragment(), OnMobileClickListener, MobileListFragment
 
     override fun updateFavList(favList: ArrayList<Mobile>) {
         getParent()?.updateFavList(favList)
+    }
+
+    override fun showErrorMsg(errorMessage: String) {
+        this.context?.showToast(errorMessage)
     }
 
     private fun getParent() = (activity as? MainActivity)
