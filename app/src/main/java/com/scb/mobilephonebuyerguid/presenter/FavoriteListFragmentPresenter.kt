@@ -3,7 +3,7 @@ package com.scb.mobilephonebuyerguid.presenter
 import com.scb.mobilephonebuyerguid.interfaces.FavoriteListFragmentInterface
 import com.scb.mobilephonebuyerguid.model.Mobile
 
-class FavoriteListFragmentPresenter(private val fragment: FavoriteListFragmentInterface) {
+class FavoriteListFragmentPresenter(private val favoriteListView: FavoriteListFragmentInterface) {
 
     private lateinit var favMobiles: ArrayList<Mobile>
 
@@ -13,17 +13,17 @@ class FavoriteListFragmentPresenter(private val fragment: FavoriteListFragmentIn
 
     fun sortRating() {
         favMobiles.sortByDescending { it.rating }
-        fragment.submitList(favMobiles)
+        favoriteListView.submitList(favMobiles)
     }
 
     fun sortPricingHighToLow() {
         favMobiles.sortByDescending { it.price }
-        fragment.submitList(favMobiles)
+        favoriteListView.submitList(favMobiles)
     }
 
     fun sortPricingLowToHigh() {
         favMobiles.sortBy { it.price }
-        fragment.submitList(favMobiles)
+        favoriteListView.submitList(favMobiles)
     }
 
     fun updateFavList(list: ArrayList<Mobile>) {

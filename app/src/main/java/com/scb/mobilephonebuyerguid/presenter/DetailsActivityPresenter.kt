@@ -22,7 +22,9 @@ class DetailsActivityPresenter(private val view: DetailsActivityInterface, priva
         override fun onResponse(call: Call<List<MobilePicture>>, response: Response<List<MobilePicture>>) {
             if (response.isSuccessful) {
                 imagesBean.clear()
-                imagesBean.addAll(response.body()!!)
+                response.body()?.apply {
+                    imagesBean.addAll(this)
+                }
                 val imageUrls = getArrayImageUrls(imagesBean)
                 view.showPicturesSlide(imageUrls)
             }

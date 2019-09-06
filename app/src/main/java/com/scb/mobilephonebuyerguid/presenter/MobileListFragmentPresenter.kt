@@ -9,7 +9,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MobileListFragmentPresenter(
-    private val fragment: MobileListFragmentInterface,
+    private val mobileListView: MobileListFragmentInterface,
     private val service: MobileApiService
 ) {
     private lateinit var mobiles: List<Mobile>
@@ -17,50 +17,52 @@ class MobileListFragmentPresenter(
 
     private val mobilesListCallback = object : Callback<List<Mobile>> {
         override fun onFailure(call: Call<List<Mobile>>, t: Throwable) {
-            fragment.showErrorMsg(t.message.toString())
+            mobileListView.showErrorMsg(t.message.toString())
         }
 
         override fun onResponse(call: Call<List<Mobile>>, response: Response<List<Mobile>>) {
             if (response.isSuccessful) {
-                mobiles = response.body()!!
-                setSortRating()
+                response.body()?.apply {
+                    mobiles =  this
+                    setSortRating()
+                }
             }
         }
     }
 
     fun unFavMobileClick(mobile: Mobile) {
         mobiles[mobiles.indexOf(mobile)].isFav = false
-        fragment.submitList(mobiles)
+        mobileListView.submitList(mobiles)
     }
 
     fun favMobileClick(mobile: Mobile, favImageView: ImageView) {
         if (mobile.isFav) {
             mobile.isFav = false
             favMobiles.remove(mobile)
-            fragment.setImage(favImageView)
-            fragment.updateFavList(favMobiles)
+            mobileListView.setImage(favImageView)
+            mobileListView.updateFavList(favMobiles)
         } else {
             mobile.isFav = true
             favMobiles.add(mobile)
-            fragment.setImageBold(favImageView)
-            fragment.updateFavList(favMobiles)
+            mobileListView.setImageBold(favImageView)
+            mobileListView.updateFavList(favMobiles)
         }
 
     }
 
     fun setSortRating() {
         mobiles = mobiles.sortedByDescending { it.rating }
-        fragment.submitList(mobiles)
+        mobileListView.submitList(mobiles)
     }
 
     fun setPricingHighToLow() {
         mobiles = mobiles.sortedByDescending { it.price }
-        fragment.submitList(mobiles)
+        mobileListView.submitList(mobiles)
     }
 
     fun setPricingLowToHigh() {
         mobiles = mobiles.sortedBy { it.price }
-        fragment.submitList(mobiles)
+        mobileListView.submitList(mobiles)
     }
 
     fun loadMobiles() {
