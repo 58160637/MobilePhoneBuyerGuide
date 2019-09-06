@@ -62,29 +62,29 @@ class DetailsActivityPresenterTest {
     }
 
     @Test
-    fun loadMobilePicturesApiResponseBodyEmptyList() {
+    fun loadMobilePicturesApiResponseBodyNull() {
         //given
         val call = mock<Call<List<MobilePicture>>>()
         whenever(service.pictures(any())).thenReturn(call)
         whenever(call.enqueue(any())).thenAnswer {
-            it.getArgument<Callback<List<MobilePicture>>>(0).onResponse(mock(), Response.success(listOf()))
+            it.getArgument<Callback<List<MobilePicture>>>(0).onResponse(mock(), Response.success(null))
         }
 
         //when
         presenter.loadMobilePictures(1)
 
         //then
-        verify(testView).showPicturesSlide(any())
+        verifyZeroInteractions(testView)
     }
 
     @Test
     fun loadMobilePicturesApiBodyMobilePictureModel() {
         //given
-        val beerModel = MobilePicture(0,0,"")
+        val model = MobilePicture(0,0,"")
         val call = mock<Call<List<MobilePicture>>>()
         whenever(service.pictures(any())).thenReturn(call)
         whenever(call.enqueue(any())).thenAnswer {
-            it.getArgument<Callback<List<MobilePicture>>>(0).onResponse(mock(), Response.success(listOf(beerModel)))
+            it.getArgument<Callback<List<MobilePicture>>>(0).onResponse(mock(), Response.success(listOf(model)))
         }
 
         //when
