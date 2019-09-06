@@ -24,9 +24,9 @@ class DetailsActivityPresenter(private val view: DetailsActivityInterface, priva
                 imagesBean.clear()
                 response.body()?.apply {
                     imagesBean.addAll(this)
+                    val imageUrls = getArrayImageUrls(imagesBean)
+                    view.showPicturesSlide(imageUrls)
                 }
-                val imageUrls = getArrayImageUrls(imagesBean)
-                view.showPicturesSlide(imageUrls)
             }
         }
     }
