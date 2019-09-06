@@ -51,7 +51,7 @@ class MobileListFragment : Fragment(), OnMobileClickListener, MobileListFragment
         rvMobiles.adapter = mobileAdapter
         rvMobiles.layoutManager = LinearLayoutManager(context)
         rvMobiles.itemAnimator = DefaultItemAnimator()
-        presenter.init()
+        presenter.loadMobiles()
     }
 
     fun unFavMobile(mobile: Mobile) {

@@ -63,12 +63,8 @@ class MobileListFragmentPresenter(
         fragment.submitList(mobiles)
     }
 
-    private fun loadMobiles(mobilesListCallback: Callback<List<Mobile>>) {
+    fun loadMobiles() {
         service.mobiles().enqueue(mobilesListCallback)
-    }
-
-    fun init() {
-        loadMobiles(mobilesListCallback)
     }
 
 
