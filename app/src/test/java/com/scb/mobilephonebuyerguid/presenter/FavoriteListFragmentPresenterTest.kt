@@ -25,18 +25,18 @@ class FavoriteListFragmentPresenterTest {
         MockitoAnnotations.initMocks(this)
     }
 
-//    @Test
-//    fun init() {
-//        //give
-//        Deencapsulation.setField(presenter, "favMobiles", ArrayList<Mobile>())
-//
-//        //when
-//        presenter.init()
-//        val result = Deencapsulation.getField<List<Mobile>>(presenter, "favMobiles")
-//
-//        //then
-//        assert(!result.isNullOrEmpty())
-//    }
+    @Test
+    fun init() {
+        //give
+        Deencapsulation.setField(presenter, "favMobiles", ArrayList<Mobile>())
+
+        //when
+        presenter.init()
+        val result = Deencapsulation.getField<List<Mobile>>(presenter, "favMobiles")
+
+        //then
+        assert(result.isEmpty())
+    }
 
     @Test
     fun sortRating() {
